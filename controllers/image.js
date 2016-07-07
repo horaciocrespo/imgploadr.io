@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var sidebar = require('../helpers/sidebar');
 var Models = require('../models');
+var md5 = require('MD5');
 
 module.exports = {
 
@@ -91,8 +92,25 @@ module.exports = {
       });
     });
 	},
-  
+
 	comment: function(req, res){
-		res.send('the image: comment POST controller');
+    Models.Image.findOne({filename: {$regex: req.params.image_id}}, function(err, image) {
+      if(!err && image) {
+        var newComment = new Models.Comment();
+
+        newComment.name = req.body.name;
+        newComment.email = req.body.email;
+        newComment.comment = req.body.comment;
+        newComment.gravatar = md5(newComment.email);
+        newComment.image_id = image._id;
+        newComment.save(function(err, comment) {
+          if(err) throw err;
+
+          res.redirect('/images/' + image.uniqueId + '#' + comment._id);
+        });
+      } else {
+        res.redirect('/');
+      }
+    });
 	}
 }
