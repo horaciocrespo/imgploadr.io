@@ -12,7 +12,7 @@ module.exports = {
       comments: []
     };
 
-    Model.Image.findOne({ filename: { $regex: req.params.image_id }}, function(err, image) {
+    Models.Image.findOne({ filename: { $regex: req.params.image_id }}, function(err, image) {
       if(err) throw err;
       
       if(image) {
@@ -35,22 +35,22 @@ module.exports = {
 	},
 
 	create: function(req, res){
+    console.log(req.file);
     var saveImage = function() {
       var possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
       var imgUrl = '';
 
       for(var i=0; i< 6; i+=1) {
-        imgUrl += possible.charAt(Math.floor(Math.random() *
-        possible.length));
+        imgUrl += possible.charAt(Math.floor(Math.random() * possible.length));
       }
 
       Models.Image.find({ filename: imgUrl }, function(err, images) {
 
-        if (images.length> 0) {
+        if (images.length > 0) {
           saveImage();
         } else {
-          var tempPath = req.files.file.path;
-          var ext = path.extname(req.files.file.name).toLowerCase();
+          var tempPath = req.file.path;
+          var ext = path.extname(req.file.originalname).toLowerCase();
           var targetPath = path.resolve('./public/upload/' + imgUrl + ext);
 
           if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {

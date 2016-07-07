@@ -13,23 +13,22 @@ var multer = require('multer');
 
 
 module.exports = function(app){
-	//app.use() mounts the middleware function(s) at the path.
-	//if path is not specified it defaults to '/'
+
 	app.use(morgan('dev'));
 	
-	/*app.use(bodyParser({
-			uploadDir:path.join(__dirname, 'public/upload/temp')
-	}));*/
+	// app.use(bodyParser({
+	// 		uploadDir: path.join(__dirname, 'public/upload/temp')
+	// }));
+
 	app.use(bodyParser.urlencoded({'extended':true}));
 	app.use(bodyParser.json());
 	
-	//??
-	var upload = multer({ dest: path.join(__dirname,'public/upload/temp')});
+	var upload = multer({ dest: path.join(__dirname, 'public/upload/temp')});
 	app.use(upload.single('file'));
 
 	app.use(methodOverride());
 	app.use(cookieParser('some-secret-value-here'));
-	//??
+  
 	app.use('/public/', express.static(path.join(__dirname,'../public')));
 	
 	if('development' === app.get('env')){
