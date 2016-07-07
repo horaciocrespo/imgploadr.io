@@ -7,17 +7,19 @@ module.exports = function(viewModel, callback){
 	async.parallel(
     [
       function(next) {
-        next(null, Stats());
+        Stats(next);
       },
       function(next) {
-        next(null, Images.popular());
+        Images.popular(next);
       },
       function(next) {
         Comments.newest(next);
       }
     ], 
 
-    function(err, results){
+    function(err, results){      
+      if(err) throw err;
+
       viewModel.sidebar = {
         stats: results[0],
         popular: results[1],
