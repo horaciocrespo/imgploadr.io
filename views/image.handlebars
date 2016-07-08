@@ -10,6 +10,7 @@
 	</div>
 	<div class="panel-footer">
 		<div class="row">
+      <!-- like button -->
 			<div class="col-md-8">
 				<button class="btn btn-success" id="btn-like" data-id="{{ image.uniqueId }}">
 					<i class="fa fa-heart"> Like</i>
@@ -18,6 +19,13 @@
 				<strong>{{ image.views }}</strong> &nbsp; - &nbsp; Posted: 
 				<em class="text-muted">{{timeago image.timestamp }}</em>
 			</div>
+      <!-- delete button -->
+      <div class="col-md-4 text-right">
+        <button class="btn btn-danger" id="btn-delete" data-id="{{ image.uniqueId }}">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+
 		</div>
 	</div>
 </div>

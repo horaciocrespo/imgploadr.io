@@ -15,3 +15,29 @@ $(function(){
 		});
 	});
 });
+
+$(function() {
+  $('#btn-delete').on('click', function(event) {
+    event.preventDefault();
+    var $this = $(this);
+
+    var remove = confirm('Are you sure you want to remove this image?');
+    if(remove) {
+      var imgId = $(this).data('id');
+      $.ajax({
+        url: '/images/' + imgId,
+        type: 'DELETE'
+      })
+      .done(function(result) {
+        if(result) {
+          $this.removeClass('btn btn-danger').addClass('btn btn-success');
+          $this.find('i')
+            .removeClass('fa fa-times')
+            .addClass('fa fa-check');
+
+          $this.append('<span> Deleted!</span>');
+        }
+      });
+    }
+  });
+});
