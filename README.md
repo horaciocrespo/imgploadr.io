@@ -1,6 +1,6 @@
 # imgploadr.io
 
-# Download dependencias
+# Download dependencies
 npm install
 
 # lauch the site
